@@ -3,26 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment, FileSystemLoader
-import tempfile
-from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML
-import tempfile
 
-def generate_pricing_pdf(data_dict):
-    # Load the HTML template
+
+def generate_pricing_html(data_dict):
     env = Environment(loader=FileSystemLoader('templates'))
     template = env.get_template("report_template.html")
     html_out = template.render(data_dict)
-
-    # Create a temporary PDF file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_pdf:
-        HTML(string=html_out).write_pdf(tmp_pdf.name)
-        return tmp_pdf.name
-
+    return html_out
 
 
 # Configure the page
@@ -444,45 +434,35 @@ st.markdown("""
 
 
 # 📄 Generate PDF for Basic + Advanced Calculator
-try:
-    pdf_path = generate_pricing_pdf({
-        "experience": experience_level,
-        "market": location,
-        "hours": time_required,
-        "complexity": complexity,
-        "ongoing": "Yes" if ongoing_maintenance else "No",
-        "maintenance_hours": maintenance_hours,
-        "tools": ', '.join(tools_used),
-        "hourly_rate": f"{adjusted_hourly_rate:.2f}",
-        "project_total": f"{project_total:.2f}",
-        "maintenance_fee": f"{monthly_maintenance_fee:.2f}",
-        "revenue_impact": f"{revenue_impact:,.2f}",
-        "time_savings_value": f"{annual_time_savings_value:,.2f}",
-        "total_value": f"{total_value:,.2f}",
-        "base_cost": f"{base_project_cost:,.2f}",
-        "integrations": integration_count,
-        "custom_code": "Yes" if custom_coding else "No",
-        "training": "Yes" if training_required else "No",
-        "users": monthly_active_users,
-        "enhanced_cost": f"{enhanced_project_cost:,.2f}",
-        "conservative": f"{conservative_value_price:,.2f}",
-        "moderate": f"{moderate_value_price:,.2f}",
-        "aggressive": f"{aggressive_value_price:,.2f}",
-        "subscription": f"{monthly_subscription:,.2f}"
-    })
+html_report = generate_pricing_html({
+    "experience": experience_level,
+    "market": location,
+    "hours": time_required,
+    "complexity": complexity,
+    "ongoing": "Yes" if ongoing_maintenance else "No",
+    "maintenance_hours": maintenance_hours,
+    "tools": ', '.join(tools_used),
+    "hourly_rate": f"{adjusted_hourly_rate:.2f}",
+    "project_total": f"{project_total:.2f}",
+    "maintenance_fee": f"{monthly_maintenance_fee:.2f}",
+    "revenue_impact": f"{revenue_impact:,.2f}",
+    "time_savings_value": f"{annual_time_savings_value:,.2f}",
+    "total_value": f"{total_value:,.2f}",
+    "base_cost": f"{base_project_cost:,.2f}",
+    "integrations": integration_count,
+    "custom_code": "Yes" if custom_coding else "No",
+    "training": "Yes" if training_required else "No",
+    "users": monthly_active_users,
+    "enhanced_cost": f"{enhanced_project_cost:,.2f}",
+    "conservative": f"{conservative_value_price:,.2f}",
+    "moderate": f"{moderate_value_price:,.2f}",
+    "aggressive": f"{aggressive_value_price:,.2f}",
+    "subscription": f"{monthly_subscription:,.2f}"
+})
 
-    with open(pdf_path, "rb") as f:
-        st.download_button(
-            label="📄 Download Full Pricing Report (PDF)",
-            data=f,
-            file_name="automation_pricing_report.pdf",
-            mime="application/pdf"
-        )
-
-except RuntimeError as e:
-    st.warning(f"""
-    🚨 PDF generation failed: {e}
-    
-    Please make sure wkhtmltopdf is installed. 
-    Download it here 👉 [wkhtmltopdf.org/downloads](https://wkhtmltopdf.org/downloads.html)
-    """)
+st.download_button(
+    label="📄 Download Full Pricing Report (HTML)",
+    data=html_report.encode("utf-8"),
+    file_name="automation_pricing_report.html",
+    mime="text/html"
+)
