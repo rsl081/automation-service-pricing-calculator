@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Automation Pricing Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
+        h1, h2 { color: #2C3E50; }
+        p, li { font-size: 14px; line-height: 1.5; }
+        .section { margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+    <h1>Automation Pricing Report</h1>
+
+    <div class="section">
+        <h2>Basic Calculator</h2>
+        <p><strong>Experience Level:</strong> {{ experience }}</p>
+        <p><strong>Primary Market:</strong> {{ market }}</p>
+        <p><strong>Estimated Hours:</strong> {{ hours }}</p>
+        <p><strong>Complexity:</strong> {{ complexity }}</p>
+        <p><strong>Ongoing Maintenance:</strong> {{ ongoing }}</p>
+        <p><strong>Monthly Maintenance Hours:</strong> {{ maintenance_hours }}</p>
+        <p><strong>Tools Used:</strong> {{ tools }}</p>
+        <p><strong>Hourly Rate:</strong> ${{ hourly_rate }}</p>
+        <p><strong>Project Total:</strong> ${{ project_total }}</p>
+        <p><strong>Maintenance Fee:</strong> ${{ maintenance_fee }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Advanced Calculator</h2>
+        <p><strong>Expected Revenue Impact:</strong> ${{ revenue_impact }}</p>
+        <p><strong>Annual Time Savings Value:</strong> ${{ time_savings_value }}</p>
+        <p><strong>Total Value to Client:</strong> ${{ total_value }}</p>
+        <p><strong>Base Project Cost:</strong> ${{ base_cost }}</p>
+        <p><strong>Integrations:</strong> {{ integrations }}</p>
+        <p><strong>Custom Code:</strong> {{ custom_code }}</p>
+        <p><strong>Training:</strong> {{ training }}</p>
+        <p><strong>User Scale:</strong> {{ users }}</p>
+        <p><strong>Enhanced Cost:</strong> ${{ enhanced_cost }}</p>
+        <p><strong>Value-Based Pricing:</strong></p>
+        <ul>
+            <li>Conservative: ${{ conservative }}</li>
+            <li>Moderate: ${{ moderate }}</li>
+            <li>Aggressive: ${{ aggressive }}</li>
+        </ul>
+        <p><strong>Subscription Option:</strong> ${{ subscription }}/month</p>
+    </div>
+</body>
+</html>
