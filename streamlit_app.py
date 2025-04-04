@@ -7,10 +7,10 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from jinja2 import Environment, FileSystemLoader
-import pdfkit
 import tempfile
-import platform
-import shutil
+from jinja2 import Environment, FileSystemLoader
+from weasyprint import HTML
+import tempfile
 
 def generate_pricing_pdf(data_dict):
     # Load the HTML template
@@ -18,28 +18,11 @@ def generate_pricing_pdf(data_dict):
     template = env.get_template("report_template.html")
     html_out = template.render(data_dict)
 
-    # Dynamically find wkhtmltopdf binary path
-    wkhtmltopdf_path = shutil.which("wkhtmltopdf")
-
-    if wkhtmltopdf_path is None:
-        # Suggest fix depending on platform
-        os_name = platform.system()
-        if os_name == "Windows":
-            default_path = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
-            wkhtmltopdf_path = default_path if shutil.which(default_path) else None
-        elif os_name == "Darwin":  # macOS
-            wkhtmltopdf_path = "/usr/local/bin/wkhtmltopdf"
-        elif os_name == "Linux":
-            wkhtmltopdf_path = "/usr/bin/wkhtmltopdf"
-
-    if wkhtmltopdf_path is None or not shutil.which(wkhtmltopdf_path):
-        raise RuntimeError("❌ wkhtmltopdf not found. Please install it and ensure it’s in your PATH.")
-
-    config = pdfkit.configuration(wkhtmltopdf=wkhtmltopdf_path)
-
+    # Create a temporary PDF file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_pdf:
-        pdfkit.from_string(html_out, tmp_pdf.name, configuration=config)
+        HTML(string=html_out).write_pdf(tmp_pdf.name)
         return tmp_pdf.name
+
 
 
 # Configure the page
