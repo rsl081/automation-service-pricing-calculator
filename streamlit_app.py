@@ -28,20 +28,9 @@ st.set_page_config(
 # Removing the default Streamlit branding from view.
 hide_streamlit_style = """
                 <style>
-                [data-testid="profileContainer"] {
+                div[class*="profileContainer"] {
                     display: none !important;
                     visibility: hidden !important;
-                }
-
-                div[data-testid="stDecoration"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
-                }
-                div[data-testid="stStatusWidget"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
                 }
                 #MainMenu {
                 visibility: hidden;
