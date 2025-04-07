@@ -28,11 +28,11 @@ st.set_page_config(
 # Removing the default Streamlit branding from view.
 hide_streamlit_style = """
                 <style>
-                div[data-testid="stToolbar"] {
-                visibility: hidden;
-                height: 0%;
-                position: fixed;
+                [data-testid="profileContainer"] {
+                    display: none !important;
+                    visibility: hidden !important;
                 }
+
                 div[data-testid="stDecoration"] {
                 visibility: hidden;
                 height: 0%;
