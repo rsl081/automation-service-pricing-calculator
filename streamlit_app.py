@@ -15,6 +15,8 @@ def generate_pricing_html(data_dict):
     return html_out
 
 
+
+
 # Configure the page
 st.set_page_config(
     page_title="Automation Service Pricing Calculator",
@@ -22,6 +24,15 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Removing the default Streamlit branding from view.
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Custom CSS for better styling
 st.markdown("""
