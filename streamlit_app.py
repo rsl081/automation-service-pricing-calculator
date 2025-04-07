@@ -27,12 +27,14 @@ st.set_page_config(
 
 # Removing the default Streamlit branding from view.
 hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    [data-testid="stDecorationFooter"] {visibility: hidden;}
+    </style>
+    """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 # Custom CSS for better styling
 st.markdown("""
